@@ -49,6 +49,7 @@ var login = (function (lightdm, $) {
     };
 
 	var remind_wrong_secret = function (idx) {
+		var idx = idx || 0;
 		select_user_from_list(idx);
 		$pass.addClass("incorrect-secret");
 		$pass.val('');
@@ -74,7 +75,10 @@ var login = (function (lightdm, $) {
                 lightdm.authentication_user,
                 lightdm.default_session
             );
-        }
+        } else {
+			remind_wrong_secret(idx_current_user);
+			idx_current_user = null;
+		}
     };
     // These can be used for user feedback
     window.show_error = function (e) {
@@ -85,17 +89,18 @@ var login = (function (lightdm, $) {
         console.log('Prompt: ' + e);
     };
 
+	var idx_current_user = null;
+
     // exposed outside of the closure
     var init = function () {
         $(function () {
-			var idx = 0;
             setup_users_list();
             select_user_from_list();
 
             $user.on('change', function (e) {
                 e.preventDefault();
-                idx = e.currentTarget.selectedIndex;
-                select_user_from_list(idx);
+                idx_current_user = e.currentTarget.selectedIndex;
+                select_user_from_list(idx_current_user);
 				$pass.removeClass("incorrect-secret");
 				$pass.val('');
             });
@@ -104,10 +109,9 @@ var login = (function (lightdm, $) {
                 e.preventDefault();
                 if($pass.val() !== '') {
 					window.provide_secret();
-				
-					if(!lightdm.is_authenticated) {
+					/*if(lightdm.is_authenticated !== true) {
 						remind_wrong_secret(idx);
-					}
+					}*/
 				}
             });
         });
