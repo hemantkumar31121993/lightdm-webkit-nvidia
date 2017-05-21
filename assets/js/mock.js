@@ -111,7 +111,7 @@ if (!('lightdm' in window)) {
             lightdm.authentication_user = null;
             lightdm._username = null;
         }
-
+		
         authentication_complete();
     };
 

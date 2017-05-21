@@ -3,6 +3,7 @@ var login = (function (lightdm, $) {
     var password = null
     var $user = $('#user');
     var $pass = $('#pass');
+    var $submit_btn = $('#submit-btn');
 
     // private functions
     var setup_users_list = function () {
@@ -19,17 +20,17 @@ var login = (function (lightdm, $) {
                 '</option>'
             );
         });
-		if(lightdm.num_users <= 1) {
-			$user.css("background-image", "none");
-		}
+        if(lightdm.num_users <= 1) {
+            $user.css("background-image", "none");
+        }
     };
     var select_user_from_list = function (idx) {
         var idx = idx || 0;
 
-		//console.log("selected user: "+idx);
+        //console.log("selected user: "+idx);
 
         find_and_display_user_picture(idx);
-		//console.log("lightdm._username: "+lightdm._username);
+        //console.log("lightdm._username: "+lightdm._username);
         if(lightdm._username){
             lightdm.cancel_authentication();
         }
@@ -48,13 +49,13 @@ var login = (function (lightdm, $) {
         );
     };
 
-	var remind_wrong_secret = function (idx) {
-		var idx = idx || 0;
-		select_user_from_list(idx);
-		$pass.addClass("incorrect-secret");
-		$pass.val('');
-		//$pass.select();
-	};
+    var remind_wrong_secret = function (idx) {
+        var idx = idx || 0;
+        select_user_from_list(idx);
+        $pass.addClass("incorrect-secret");
+        $pass.val('');
+        //$pass.select();
+    };
 
     // Functions that lightdm needs
     window.start_authentication = function (username) {
@@ -69,6 +70,7 @@ var login = (function (lightdm, $) {
         }
     };
     window.authentication_complete = function () {
+        $submit_btn.removeClass("animate");
         if (lightdm.is_authenticated) {
             show_prompt('Logged in');
             lightdm.login(
@@ -76,9 +78,9 @@ var login = (function (lightdm, $) {
                 lightdm.default_session
             );
         } else {
-			remind_wrong_secret(idx_current_user);
-			idx_current_user = null;
-		}
+            remind_wrong_secret(idx_current_user);
+            idx_current_user = null;
+        }
     };
     // These can be used for user feedback
     window.show_error = function (e) {
@@ -89,7 +91,7 @@ var login = (function (lightdm, $) {
         console.log('Prompt: ' + e);
     };
 
-	var idx_current_user = null;
+    var idx_current_user = null;
 
     // exposed outside of the closure
     var init = function () {
@@ -101,18 +103,19 @@ var login = (function (lightdm, $) {
                 e.preventDefault();
                 idx_current_user = e.currentTarget.selectedIndex;
                 select_user_from_list(idx_current_user);
-				$pass.removeClass("incorrect-secret");
-				$pass.val('');
+                $pass.removeClass('incorrect-secret');
+                $pass.val('');
             });
 
             $('form').on('submit', function (e) {
                 e.preventDefault();
                 if($pass.val() !== '') {
-					window.provide_secret();
-					/*if(lightdm.is_authenticated !== true) {
-						remind_wrong_secret(idx);
-					}*/
-				}
+                    (function(){ $submit_btn.addClass("animate"); console.log("animate on");}());
+                    window.provide_secret();
+                    /*if(lightdm.is_authenticated !== true) {
+                        remind_wrong_secret(idx);
+                    }*/
+                }
             });
         });
     };
@@ -123,81 +126,81 @@ var login = (function (lightdm, $) {
 } (lightdm, jQuery));
 
 var assert = {
-	assertCaller : {caller: false, object: false}, /* 1: shutdown, 2: restart */
-	shutdownAssert:"<div id='assert-block'><div class='confirm' onclick='javascript: assert.confirmShutdown()'>Confirm Shutdown</div><div class='deny' onclick='javascript: assert.denyAction()'>Deny</div></div>",
-	
-	restartAssert:"<div id='assert-block'><div class='confirm' onclick='javascript: assert.confirmRestart()'>Confirm Restart</div><div class='deny' onclick='javascript: assert.denyAction()'>Deny</div></div>",
-	
-	shutdown : function (o) {
-		if(this.assertCaller.caller) {
-			this.assertCaller.object.removeClass("active");
-			$("#assert-block").remove();
-			
-			if(this.assertCaller.caller == 1) {
-				this.assertCaller.caller = false;
-				this.assertCaller.object = false;
-				//console.log("switch off the shutdown button");
-			}
-			else {
-				this.assertCaller.caller = 1;
-				this.assertCaller.object = $(o);
-				$(o).addClass("active");
-				$('body').append(this.shutdownAssert);
-				$("#assert-block").css({bottom: $(o).height(), left: $(o).offset().left});
-			}
-		}
-		else {
-			$("#assert-block").remove();
-			this.assertCaller.caller = 1;
-			this.assertCaller.object = $(o);
-			$(o).addClass("active");
-			$('body').append(this.shutdownAssert);
-			$("#assert-block").css({bottom: $(o).height(), left: $(o).offset().left});
-		}
-	},
-	
-	restart : function (o) {
-		if(this.assertCaller.caller) {
-			this.assertCaller.object.removeClass("active");
-			$("#assert-block").remove();
-			
-			if(this.assertCaller.caller == 2) {
-				this.assertCaller.caller = false;
-				this.assertCaller.object = false;
-				//console.log("switch off the restart button");
-			}
-			else {
-				this.assertCaller.caller = 2;
-				this.assertCaller.object = $(o);
-				$(o).addClass("active");
-				$('body').append(this.restartAssert);
-				$("#assert-block").css({bottom: $(o).height(), left: $(o).offset().left});
-			}
-		}
-		else {
-			$("#assert-block").remove();
-			this.assertCaller.caller = 2;
-			this.assertCaller.object = $(o);
-			$(o).addClass("active");
-			$('body').append(this.restartAssert);
-			$("#assert-block").css({bottom: $(o).height(), left: $(o).offset().left});
-		}
-	},
+    assertCaller : {caller: false, object: false}, /* 1: shutdown, 2: restart */
+    shutdownAssert:"<div id='assert-block'><div class='confirm' onclick='javascript: assert.confirmShutdown()'>Confirm Shutdown</div><div class='deny' onclick='javascript: assert.denyAction()'>Deny</div></div>",
+    
+    restartAssert:"<div id='assert-block'><div class='confirm' onclick='javascript: assert.confirmRestart()'>Confirm Restart</div><div class='deny' onclick='javascript: assert.denyAction()'>Deny</div></div>",
+    
+    shutdown : function (o) {
+        if(this.assertCaller.caller) {
+            this.assertCaller.object.removeClass("active");
+            $("#assert-block").remove();
+            
+            if(this.assertCaller.caller == 1) {
+                this.assertCaller.caller = false;
+                this.assertCaller.object = false;
+                //console.log("switch off the shutdown button");
+            }
+            else {
+                this.assertCaller.caller = 1;
+                this.assertCaller.object = $(o);
+                $(o).addClass("active");
+                $('body').append(this.shutdownAssert);
+                $("#assert-block").css({bottom: $(o).height(), left: $(o).offset().left});
+            }
+        }
+        else {
+            $("#assert-block").remove();
+            this.assertCaller.caller = 1;
+            this.assertCaller.object = $(o);
+            $(o).addClass("active");
+            $('body').append(this.shutdownAssert);
+            $("#assert-block").css({bottom: $(o).height(), left: $(o).offset().left});
+        }
+    },
+    
+    restart : function (o) {
+        if(this.assertCaller.caller) {
+            this.assertCaller.object.removeClass("active");
+            $("#assert-block").remove();
+            
+            if(this.assertCaller.caller == 2) {
+                this.assertCaller.caller = false;
+                this.assertCaller.object = false;
+                //console.log("switch off the restart button");
+            }
+            else {
+                this.assertCaller.caller = 2;
+                this.assertCaller.object = $(o);
+                $(o).addClass("active");
+                $('body').append(this.restartAssert);
+                $("#assert-block").css({bottom: $(o).height(), left: $(o).offset().left});
+            }
+        }
+        else {
+            $("#assert-block").remove();
+            this.assertCaller.caller = 2;
+            this.assertCaller.object = $(o);
+            $(o).addClass("active");
+            $('body').append(this.restartAssert);
+            $("#assert-block").css({bottom: $(o).height(), left: $(o).offset().left});
+        }
+    },
 
-	confirmShutdown: function() {
-		lightdm.shutdown();
-	},
+    confirmShutdown: function() {
+        lightdm.shutdown();
+    },
 
-	confirmRestart: function() {
-		lightdm.restart();
-	},
+    confirmRestart: function() {
+        lightdm.restart();
+    },
 
-	denyAction: function() {
-		$('#assert-block').remove();
-		this.assertCaller.object.removeClass("active");
-		this.assertCaller.caller = false;
-		this.assertCaller.object = false;
-	}
+    denyAction: function() {
+        $('#assert-block').remove();
+        this.assertCaller.object.removeClass("active");
+        this.assertCaller.caller = false;
+        this.assertCaller.object = false;
+    }
 };
 
 login.init();

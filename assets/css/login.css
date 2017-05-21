@@ -167,8 +167,8 @@ body {
     color: #fff;
     text-shadow: 0 1px rgba(0,0,0,.1);
     background-color: #6ead00;
-	background-image: -webkit-linear-gradient(top, #6ead00, #71b200)
-	background-image: linear-gradient(top, #6ead00, #71b200)
+	background-image: -webkit-linear-gradient(top, #6ead00, #71b200);
+	background-image: linear-gradient(top, #6ead00, #71b200);
     /*background-image: -webkit-linear-gradient(top, #4d90fe, #4787ed);
     background-image: linear-gradient(top, #4d90fe, #4787ed); */
 }
@@ -186,6 +186,7 @@ body {
     background-image: -webkit-linear-gradient(top, #6ead00, #5da200);
     background-image: linear-gradient(top, #6ead00, #5da200);
 }
+
 .buttons-wrap {
     float: right;
 }
