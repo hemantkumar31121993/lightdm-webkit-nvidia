@@ -1,8 +1,10 @@
 var login = (function (lightdm, $) {
     var selected_user = null;
-    var password = null
+    var password = null;
+    var selected_session = null;
     var $user = $('#user');
     var $pass = $('#pass');
+    var $session = $('#session');
     var $submit_btn = $('#submit-btn');
 
     // private functions
@@ -24,6 +26,24 @@ var login = (function (lightdm, $) {
             $user.css("background-image", "none");
         }
     };
+
+    var setup_session_list = function() {
+        var $list = $session;
+        var to_append = null;
+        $.each(lightdm.sessions, function(i) {
+            var name = lightdm.sessions[i].name;
+            var key = lightdm.sessions[i].key;
+            $list.append(
+                '<option value="' +
+                key +
+                '">' +
+                name +
+                '</option>'
+            );
+        });
+        $session.css('background-image', 'url(\'assets/ui/session/'+lightdm.sessions[0].key+'.png\')');
+    };
+
     var select_user_from_list = function (idx) {
         var idx = idx || 0;
 
@@ -71,11 +91,13 @@ var login = (function (lightdm, $) {
     };
     window.authentication_complete = function () {
         $submit_btn.removeClass("animate");
+        var session = selected_session || lightdm.default_session;
         if (lightdm.is_authenticated) {
             show_prompt('Logged in');
             lightdm.login(
                 lightdm.authentication_user,
-                lightdm.default_session
+                session
+                //lightdm.default_session
             );
         } else {
             remind_wrong_secret(idx_current_user);
@@ -97,6 +119,7 @@ var login = (function (lightdm, $) {
     var init = function () {
         $(function () {
             setup_users_list();
+            setup_session_list();
             select_user_from_list();
 
             $user.on('change', function (e) {
@@ -105,6 +128,12 @@ var login = (function (lightdm, $) {
                 select_user_from_list(idx_current_user);
                 $pass.removeClass('incorrect-secret');
                 $pass.val('');
+            });
+
+            $session.on('change', function(e) {
+                e.preventDefault();
+                selected_session = lightdm.sessions[e.currentTarget.selectedIndex].key;
+                $session.css('background-image', 'url(\'assets/ui/session/'+selected_session+'.png\')');
             });
 
             $('form').on('submit', function (e) {

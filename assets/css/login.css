@@ -169,6 +169,7 @@ body {
     background-color: #6ead00;
 	background-image: -webkit-linear-gradient(top, #6ead00, #71b200);
 	background-image: linear-gradient(top, #6ead00, #71b200);
+	border-radius:3px 3px 0px 0px;
     /*background-image: -webkit-linear-gradient(top, #4d90fe, #4787ed);
     background-image: linear-gradient(top, #4d90fe, #4787ed); */
 }

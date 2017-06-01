@@ -28,13 +28,13 @@ if (!('lightdm' in window)) {
     lightdm.layout = lightdm.layouts[0];
     lightdm.sessions = [
         {
-            key: "key1",
-            name: "session 1",
+            key: "plasma",
+            name: "Plasma",
             comment: "no comment"
         },
         {
-            key: "key2",
-            name: "session 2",
+            key: "ubuntu",
+            name: "Ubuntu",
             comment: "no comment"
         }
     ];
@@ -168,7 +168,7 @@ if (!('lightdm' in window)) {
             throw "this user is not authenticated";
         }
 
-        alert("logged in successfully!!");
+        alert("logged in successfully!!--" + session);
         document.location.reload(true);
     };
 
