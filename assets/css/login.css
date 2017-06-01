@@ -122,10 +122,10 @@ body {
 }
 
 #pass.incorrect-secret {
-	background-image:url('../ui/red-cross.png');
-	background-repeat: no-repeat;
-	background-position: 97% 50%;
-	border:1px solid #ff0000;
+    background-image:url('../ui/red-cross.png');
+    background-repeat: no-repeat;
+    background-position: 97% 50%;
+    border:1px solid #ff0000;
 }
 
 .btn {
@@ -167,9 +167,9 @@ body {
     color: #fff;
     text-shadow: 0 1px rgba(0,0,0,.1);
     background-color: #6ead00;
-	background-image: -webkit-linear-gradient(top, #6ead00, #71b200);
-	background-image: linear-gradient(top, #6ead00, #71b200);
-	border-radius:3px 3px 0px 0px;
+    background-image: -webkit-linear-gradient(top, #6ead00, #71b200);
+    background-image: linear-gradient(top, #6ead00, #71b200);
+    border-radius:3px 3px 0px 0px;
     /*background-image: -webkit-linear-gradient(top, #4d90fe, #4787ed);
     background-image: linear-gradient(top, #4d90fe, #4787ed); */
 }
@@ -216,8 +216,8 @@ body {
     cursor: pointer;
     float: left;
     /* margin-right: 20px; */
-	padding-left:10px;
-	padding-right:10px;
+    padding-left:10px;
+    padding-right:10px;
 }
 .action-clock {
     cursor: default;
@@ -237,18 +237,18 @@ body {
 }
 
 .action.power {
-	opacity:1;
+    opacity:1;
 }
 .action.power:hover {
-	background-color:#9ccc65;
-	transition: background 0.218s;
+    background-color:#9ccc65;
+    transition: background 0.218s;
 }
 .action.power.active {
-	background-color:#6ead00;
+    background-color:#6ead00;
 }
 /*
 .action.power:hover {
-	opacity:1;
+    opacity:1;
 } */
 
 .action-shutdown i {
@@ -259,30 +259,30 @@ body {
 }
 
 #assert-block {
-	position:fixed;
-	display: inline-block;
-	padding:10px;
-	background-color: #6ead00;
-	border-radius: 2px 2px 0px 0px;
+    position:fixed;
+    display: inline-block;
+    padding:10px;
+    background-color: #6ead00;
+    border-radius: 2px 2px 0px 0px;
 }
 
 #assert-block .confirm {
-	cursor:pointer;
-	float:left;
-	display:inline-block;
-	padding:10px;
-	border-radius:3px;
-	background-color:#ffffff;
-	color: #000000;
+    cursor:pointer;
+    float:left;
+    display:inline-block;
+    padding:10px;
+    border-radius:3px;
+    background-color:#ffffff;
+    color: #000000;
 }
 
 #assert-block .deny {
-	cursor: pointer;
-	float:left;
-	display:inline-block;
-	padding:10px;
-	border-radius:3px;
-	background-color:#c62828;
-	color: #ffffff;
-	margin-left:10px;
+    cursor: pointer;
+    float:left;
+    display:inline-block;
+    padding:10px;
+    border-radius:3px;
+    background-color:#c62828;
+    color: #ffffff;
+    margin-left:10px;
 }
